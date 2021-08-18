@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset="UTF-8">
+        <title>Scan Report</title>
+    </head>
+</html>
+<body>
+    <header>
+        <h1 id="title">Scan Report</h1>
+        <h6 id='date'>{{ date }}</h6>
+    </header>
+    {% for target in targets %}
+        <div class='target_container'>
+        
+            <div class='title_target_container'>
+                <h2>{{ target.target }}</h2>
+            </div>
+
+            {% if target.hosts == [] %}
+                <div class='host_container'>
+                    <p class='no_host_text'>No host up on this target.</p>
+                </div>
+            {% else %}
+                {% for host in target.hosts %}
+                    
+                    <div class='host_container'>
+                        
+                        <div class='host_title'>
+                            <h3>{{host.host}}</h3>
+                        </div>
+
+                        <div class='information_box_host'>
+                            <p class='basic_information_text'>Host : {{host.host}}</p>
+                            {% if host.hostname != "" %}
+                                <p class='basic_information_text'>Hostname : {{host.hostname}} </p>
+                            {% endif %}
+                            {% if host.mac != "" %}
+                                <p class='basic_information_text'>MAC Adress : {{host.mac}}</p>
+                            {% endif %}
+                        </div>
+
+                        <div class='all_port_container'>
+                            {% for port in host.ports %}
+                                
+                                <div class='port_container'>
+                                
+                                    <div class='container_title_port'>
+                                        <h3 class='title_port'>Port {{port.port_id}}</h3>
+                                    </div>
+                                    
+                                    <div class='container_information_box_port'> 
+                                        <div class='information_box_port'>
+                                            {% if port.service != "" %}
+                                                <p class='basic_information_text'>Service : {{port.service}}</p>
+                                            {% endif %}
+                                            {% if port.product != "" %}
+                                                <p class='basic_information_text'>Product : {{port.product}} </p>
+                                            {% endif %}
+                                        </div>
+                                        <div class="information_box_port">
+                                            {% if port.version != "" %}
+                                                <p class='basic_information_text'>Version : {{port.version}}</p>
+                                            {% endif %}
+                                            {% if port.extrainfo != "" %}
+                                                <p class='basic_information_text'>Information : {{port.extrainfo}}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
+                                    {% if port.vulns != [] %}
+                                        <div class='container_table_vulns'>
+                                            <table>
+                                                <thead>
+                                                <tr>
+                                                    <th>CVE</th>
+                                                    <th>CVSS</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for vuln in port.vulns %}
+                                                    <tr>
+                                                        <td>{{ vuln.id }}</td>
+                                                        <td>{{ vuln.cvss }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endfor %}
+</body>
+</html>
+
+<style>
+    /* General */ 
+* {
+    margin: 0;
+    padding:0;
+}
+
+body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #2f4561;
+    color: #ffffff;
+}
+
+    /* Header */
+header {
+    margin: 10px;
+    text-align: center;
+}
+
+#title {
+    font-size: 48px;
+    padding: 5px;
+    font-weight: bold;
+}
+  
+
+#date {
+    font-size: 20px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+} 
+
+    /* Target */ 
+
+.target_container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.title_target_container{
+    font-size: 26px;
+    max-width: 60%;
+    padding: 10px;
+    padding-bottom: 20px;
+    justify-content: flex-start;
+    border-bottom:2px solid rgb(131, 160, 255);
+}
+
+.no_host_text{
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 20px
+}
+
+    /* Host */
+.host_container{
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.host_title{
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    border-bottom: 1px solid #ffffff;
+}
+
+.information_box_host{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px
+}
+
+.basic_information_text{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+    /* port */ 
+.all_port_container{
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.port_container{
+    padding: 10px;
+    width: 80%;
+}
+
+.container_title_port{
+    border: 1px solid #ffffff;
+    padding: 10px;
+    text-align: center;
+}
+
+.container_information_box_port{
+    padding: 10px;
+    width: 100%;
+}
+
+.information_box_port{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px
+}
+
+    /* Table */
+.container_table_vulns{
+    text-align: center;
+}
+
+table {
+    margin-left: 50px;
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 90%;
+}
+
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #ffffff;
+    color: #2f4561
+}
+
+</style>
