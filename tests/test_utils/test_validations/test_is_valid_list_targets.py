@@ -1,5 +1,5 @@
 import pytest
-from nmap.utils.validation import is_valid_list_targets
+from utils.validation import is_valid_list_targets
 
 
 def test_type():

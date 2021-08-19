@@ -1,4 +1,4 @@
-from nmap.utils.validation import is_valid_hostname
+from utils.validation import is_valid_hostname
 
 
 def test_type_error():

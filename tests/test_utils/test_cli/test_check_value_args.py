@@ -1,5 +1,5 @@
 import pytest
-from nmap.utils.parser import parser, check_value_args
+from utils.cli import cli, check_value_args
 from argparse import Namespace
 
 list_empty_args = []
@@ -12,7 +12,7 @@ list_args_with_tf_value = ['-tf', 'file_target.txt']
 
 
 def test_type():
-    empty_args = parser(list_empty_args)
+    empty_args = cli(list_empty_args)
     with pytest.raises(ValueError) as excinfo:
         check_value_args(empty_args)
     assert "[!] You need to specify targets or a target file" in str(
@@ -38,9 +38,9 @@ def test_type():
 
 
 def test_value_args():
-    args = parser(list_args)
+    args = cli(list_args)
     assert check_value_args(args) is True
-    args_multiple_t_value = parser(list_args_multiple_t_value)
+    args_multiple_t_value = cli(list_args_multiple_t_value)
     assert check_value_args(args_multiple_t_value) is True
-    args_with_tf_value = parser(list_args_with_tf_value)
+    args_with_tf_value = cli(list_args_with_tf_value)
     assert check_value_args(args_with_tf_value) is True

@@ -2,7 +2,7 @@ import argparse
 
 
 # Parse args from the command line
-def parser(args: list) -> argparse.Namespace:
+def cli(args: list) -> argparse.Namespace:
     """Parse args from the command line
 
     Args:

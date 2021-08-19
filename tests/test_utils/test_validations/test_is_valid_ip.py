@@ -1,4 +1,4 @@
-from nmap.utils.validation import is_valid_ip
+from utils.validation import is_valid_ip
 
 
 def test_type_error():

@@ -1,4 +1,4 @@
-from nmap.utils.extract import filter_targets
+from utils.extract import filter_targets
 import pytest
 
 list_targets = [
